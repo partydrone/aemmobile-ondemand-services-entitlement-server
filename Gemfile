@@ -14,8 +14,8 @@ gem 'turbolinks', '~> 5.x'
 gem 'uglifier', '>= 1.3.0'
 
 # Authentication
-# gem 'omniauth-identity'
-# gem 'pundit'
+gem 'omniauth-identity'
+gem 'pundit'
 # gem 'rolify'
 
 # Front-end
