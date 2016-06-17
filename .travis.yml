@@ -1,0 +1,25 @@
+sudo: false
+language: ruby
+rvm:
+  - 2.2.5
+cache: bundler
+addons:
+  postgresql: '9.4'
+script:
+  - RAILS_ENV=test bundle exec rails db:migrate --trace
+  - bundle exec rails db:test:prepare
+before_script:
+  - psql -c "create database travis_ci_test;" -U postgres
+  - cp config/database.travis.yml config/database.yml
+  - cp config/secrets.travis.yml config/secrets.yml
+deploy:
+  matrix:
+    - provider: opsworks
+      access-key-id: AKIAICOHX55UFK6DX4IA
+      secret-access-key:
+        secure: W17GDZI0yTjDlZRTd4dEznyUdGTfCXc5iVuL5d68ZSAJKHxl032bEYSuag0KG5mpDZkvPMbLPfJ6unrV/LwMZHI4enGwVqZWeIRdvrDj5al870Fj0JokCZmfKZucQHkCrowLBMnDtWqkdLtqeaOhX1JKLa9Vsp+tu3sm6L8bYUr9E77ABW37X3XGfVE9y0cO45HS7RzOurSZu9eNsrr87ygTuFfG8QS8Hei3D08Cc9KiyT9lHfiU/OiMcSoga5ZRSk5tqt5YNBNuEGL1m5rp3Bk2sN5EOY+iX44v7yEvg4NY9liPabiokRl2LXzaZJ1uEW9CxDXVYuXqXA0c5yrEZpxJDvqQfAv+MxsKdtrS1h0Ss/tI3quZajz0+4q9iLHFL/zUUl7JwxfXJrUerOheo1vj/sfvsN/87akVNee65TsMtAjUvz9TpjRtneEvIhd9BsOipXVxWb6yNhNgPGOsi/0mJgSLuIJ4BPtIw0LRilrENQZ4kknV45UHofVrvGBek8vxIzaKrZ9VWfgXxzwhY7qvCNAe57H0rumkvORftcgUko8RNxUKOoIq0piIQ7rXYBc4PeGwaA/x/jzyYQu/ZhMsXqyJhk6qEdMys6ckzBt1bhHY5rdq3gG533tnMOqEpG1/qWJ0MUtTGgofTh3MP4dxbQjlIWCz6YZbXEspAtc=
+      app-id:
+      on:
+        repo: partydrone/aemmobile-ondemand-services-entitlement-server
+        branch: master
+        rvm: 2.2.5
